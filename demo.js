@@ -1,33 +1,32 @@
-window.onload = () => {
-  // Remueve la clase que pausa las animaciones al terminar de cargar la ventana
-  document.body.classList.remove("container");
-};
-
-// Selección de elementos del DOM
-const music = document.getElementById("music");
 const msg = document.getElementById("mensagem");
+const poem = document.getElementById("lyrics");
 
-/**
- * Inicia la reproducción de audio y maneja los estados visuales del mensaje.
- */
-function startMusic() {
-  music.play();
+function activate() {
+  // Ativa as flores (remove o "paused" e dispara as animações do CSS)
+  document.body.classList.add("active");
 
-  msg.innerText = "Obrigado, boa música, ela não tá completa kkkkk, espero que goste :)";
-
-  // Transición de desvanecimiento
-  setTimeout(() => {
-    msg.style.opacity = "0";
-  }, 2000);
-
-  // Quita el elemento del flujo visual después de la animación
+  // Faz a mensagem de entrada desaparecer suavemente
+  msg.style.opacity = "0";
   setTimeout(() => {
     msg.style.display = "none";
-  }, 3000);
+  }, 1000);
 
-  // Remueve el detector para evitar múltiples activaciones
-  document.removeEventListener("click", startMusic);
+  // Mostra o texto dedicado com fade-in após as flores começarem a brotar (2.2 segundos)
+  setTimeout(() => {
+    poem.classList.add("show");
+    
+    // Esconde o poema suavemente após os 7 segundos (7000ms) definidos
+    setTimeout(() => {
+      poem.style.opacity = "0";
+    }, 7000);
+    
+  }, 2200);
+
+  // Remove os ouvintes de eventos para evitar cliques repetidos
+  document.removeEventListener("click", activate);
+  document.removeEventListener("touchend", activate);
 }
 
-// Escucha el evento de clic en cualquier parte de la pantalla
-document.addEventListener("click", startMusic);
+// Escuta os eventos de clique na tela ou toque em celulares
+document.addEventListener("click", activate);
+document.addEventListener("touchend", activate);
